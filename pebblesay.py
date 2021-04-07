@@ -227,54 +227,57 @@ if wrapping:
 #calculating width
 width = max(len(i) for i in text)
 
-####################
-#printing (finally)#
-####################
+##########
+#printing#
+##########(finally)
+output = ""
 
-#printing top line
-stdout.write(" _")
+#generating top line
+output += " _"
 for i in range(0, width):
-    stdout.write('_')
-stdout.write("_")
+    output += '_'
+output += "_"
 
-#printing one line of text
+#one line of text
 if len(text) == 1:
-    stdout.write("   {}\n".format(asciiart[0]))
-    stdout.write("< {} >  {}\n".format(text[0], asciiart[1]))
+    output += "   {}\n".format(asciiart[0])
+    output += "< {} >  {}\n".format(text[0], asciiart[1])
 
-#printing multiple lines of text
+#multiple lines of text
 elif len(text) > 1:
-    stdout.write("\n")
+    output += "\n"
     for i in range(0, len(text)):
         if i == 0:
-            stdout.write("/ {} \\  ".format(text[0].ljust(width)))
+            output += "/ {} \\  ".format(text[0].ljust(width))
         elif len(text) - i == 1:
-            stdout.write("\\ {} /  ".format(text[i].ljust(width)))
+            output += "\\ {} /  ".format(text[i].ljust(width))
         else:
-            stdout.write("│ {} │  ".format(text[i].ljust(width)))
+            output += "│ {} │  ".format(text[i].ljust(width))
 
         #printing asciiart
         if len(text) - i == 2:
-            stdout.write(asciiart[0])
+            output += asciiart[0]
         elif len(text) - i == 1:
-            stdout.write(asciiart[1])
+            output += asciiart[1]
 
-        stdout.write("\n")
+        output += "\n"
 
 spacing = " " * width
 
-#printing bottom line
-stdout.write(" ¯")
+#creating bottom line
+output += " ¯"
 for i in range(0, width):
-    stdout.write('¯')
-stdout.write("¯ ")
+    output += '¯'
+output += "¯ "
 if not think:
-    stdout.write("\\ {}\n".format(asciiart[2]))
-    stdout.write(spacing + "     \\{}\n".format(asciiart[3]))
+    output += "\\ {}\n".format(asciiart[2])
+    output += spacing + "     \\{}\n".format(asciiart[3])
 else:
-    stdout.write("o {}\n".format(asciiart[2]))
-    stdout.write(spacing + "     o{}\n".format(asciiart[3]))
+    output += "o {}\n".format(asciiart[2])
+    output += spacing + "     o{}\n".format(asciiart[3])
 
-#printing rest of asciiart
+#appending the rest of asciiart
 for i in range(4, len(asciiart)):
-    stdout.write(spacing + asciiart[i] + "\n")
+    output += spacing + asciiart[i] + "\n"
+
+stdout.write(output)
