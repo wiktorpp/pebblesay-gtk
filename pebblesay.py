@@ -271,10 +271,10 @@ for i in range(0, width):
 output += "¯ "
 if not think:
     output += f"\\ {asciiart[2]}\n"
-    output += spacing + "     \\{asciiart[3]}\n"
+    output += spacing + f"     \\{asciiart[3]}\n"
 else:
     output += "o {}\n".format(asciiart[2])
-    output += spacing + "     o{asciiart[3]}\n"
+    output += spacing + f"     o{asciiart[3]}\n"
 
 #appending the rest of asciiart
 for i in range(4, len(asciiart)):
