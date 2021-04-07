@@ -240,19 +240,19 @@ output += "_"
 
 #one line of text
 if len(text) == 1:
-    output += "   {}\n".format(asciiart[0])
-    output += "< {} >  {}\n".format(text[0], asciiart[1])
+    output += f"   {asciiart[0]}\n"
+    output += f"< {text[0]} >  {asciiart[1]}\n"
 
 #multiple lines of text
 elif len(text) > 1:
     output += "\n"
     for i in range(0, len(text)):
         if i == 0:
-            output += "/ {} \\  ".format(text[0].ljust(width))
+            output += f"/ {text[0].ljust(width)} \\  "
         elif len(text) - i == 1:
-            output += "\\ {} /  ".format(text[i].ljust(width))
+            output += f"\\ {text[i].ljust(width)} /  "
         else:
-            output += "│ {} │  ".format(text[i].ljust(width))
+            output += f"│ {text[i].ljust(width)} │  "
 
         #printing asciiart
         if len(text) - i == 2:
@@ -270,14 +270,14 @@ for i in range(0, width):
     output += '¯'
 output += "¯ "
 if not think:
-    output += "\\ {}\n".format(asciiart[2])
-    output += spacing + "     \\{}\n".format(asciiart[3])
+    output += f"\\ {asciiart[2]}\n"
+    output += spacing + "     \\{asciiart[3]}\n"
 else:
     output += "o {}\n".format(asciiart[2])
-    output += spacing + "     o{}\n".format(asciiart[3])
+    output += spacing + "     o{asciiart[3]}\n"
 
 #appending the rest of asciiart
 for i in range(4, len(asciiart)):
-    output += spacing + asciiart[i] + "\n"
+    output += f"{spacing}{asciiart[i]}\n"
 
 stdout.write(output)
