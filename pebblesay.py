@@ -83,7 +83,7 @@ maxWidth = 35
 #determining options
 forcePipe = think = wrapping = force = colorDisabled = False
 nextIterWidth = nextIterMod = False
-textSupplied = False
+isTextInParameters = False
 textOffset = 1
 modsEnabled = []
 for i in argv[1:]:
@@ -112,7 +112,7 @@ for i in argv[1:]:
 
     #stopping at the end of options
     if not i.startswith("-") and not nextIterWidth:
-        textSupplied = True
+        isTextInParameters = True
         break
 
     if "p" in i:
@@ -139,7 +139,7 @@ except:
     width = maxWidth
 
 #turning on text wrapping if text supplied as argument
-if textSupplied and not "\\n" in " ".join(argv[textOffset:]):
+if isTextInParameters and not "\\n" in " ".join(argv[textOffset:]):
     wrapping = True
 
 #configuring asciiart
@@ -166,7 +166,7 @@ else:
 ###############
 
 #fetching text from arguments
-if textSupplied:
+if isTextInParameters:
     text = " ".join(argv[textOffset:]).split("\\n")
 
 #if no text supplied in arguments
@@ -194,7 +194,7 @@ def usageMsg():
     print('  -> pebblesay "Hi, \\nhow are you?"')
     _exit(0)
 
-if not textSupplied and not forcePipe:
+if not isTextInParameters and not forcePipe:
     #prinring usage message after a set time (I am so fucking smart :3)
     usageMsgTimer = Timer(0.1, usageMsg)
     usageMsgTimer.start()
