@@ -156,26 +156,23 @@ width = max(len(i) for i in text)
 output = ""
 
 #generating top line
-output += " _"
-for i in range(0, width):
-    output += '_'
-output += "_"
+output += " " + '_' * (width + 2) + " "
 
 #one line of text
 if len(text) == 1:
-    output += f"   {asciiart[0]}\n"
+    output += f"  {asciiart[0]}\n"
     output += f"< {text[0]} >  {asciiart[1]}\n"
 
 #multiple lines of text
 elif len(text) > 1:
     output += "\n"
-    for i in range(0, len(text)):
+    for i, line in enumerate(text):
         if i == 0:
-            output += f"/ {text[0].ljust(width)} \\  "
+            output += f"/ {line.ljust(width)} \\  "
         elif len(text) - i == 1:
-            output += f"\\ {text[i].ljust(width)} /  "
+            output += f"\\ {line.ljust(width)} /  "
         else:
-            output += f"│ {text[i].ljust(width)} │  "
+            output += f"│ {line.ljust(width)} │  "
 
         #printing asciiart
         if len(text) - i == 2:
@@ -188,19 +185,16 @@ elif len(text) > 1:
 spacing = " " * width
 
 #creating bottom line
-output += " ¯"
-for i in range(0, width):
-    output += '¯'
-output += "¯ "
+output += " " + '¯' * (width + 2) + " "
 if not args.think:
     output += f"\\ {asciiart[2]}\n"
-    output += spacing + f"     \\{asciiart[3]}\n"
+    output += f"{spacing}     \\{asciiart[3]}\n"
 else:
     output += f"o {asciiart[2]}\n"
-    output += spacing + f"     o{asciiart[3]}\n"
+    output += f"{spacing}     o{asciiart[3]}\n"
 
 #appending the rest of asciiart
-for i in range(4, len(asciiart)):
-    output += f"{spacing}{asciiart[i]}\n"
+for line in asciiart[4:]:
+    output += f"{spacing}{line}\n"
 
 stdout.write(output)
