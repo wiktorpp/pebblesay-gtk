@@ -99,10 +99,6 @@ args = parser.parse_args()
 
 text = " ".join(args.text).split("\\n")
 
-#turning on text wrapping if text supplied as argument
-if text=="" and not args.nowrap:
-    wrapping = True
-
 #configuring asciiart
 asciiart = baseAsciiart
 if args.mods != None:
