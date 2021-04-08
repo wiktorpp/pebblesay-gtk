@@ -121,13 +121,11 @@ if args.mods != None:
 ###############
 #fetching text#
 ###############
-def helpAndExit():
-    parser.print_help()
-    _exit(0)
-
 if text == [""] and not args.pipe:
     #prinring usage message after a set time (I am so fucking smart :3)
-    usageMsgTimer = Timer(0.1, helpAndExit)
+    usageMsgTimer = Timer(0.1, 
+        lambda: [parser.print_help(), _exit(0)]
+    )
     usageMsgTimer.start()
     #awaiting for text on stdin (peek() is blocking) and cancelling timer asap
     stdin.buffer.peek(1)
