@@ -7,6 +7,7 @@
 
 from sys import *
 from os import *
+import argparse
 from threading import Timer
 from textwrap import wrap
 
@@ -80,76 +81,32 @@ maxWidth = 35
 #setting options#
 #################
 
-#determining options
-forcePipe = think = wrapping = force = colorDisabled = False
-nextIterWidth = nextIterMod = False
-isTextInParameters = False
-textOffset = 1
-modsEnabled = []
-for i in argv[1:]:
+# Create the parser (should have used that from the begining)
+parser = argparse.ArgumentParser(
+    prog="nishisay",
+    usage=
+        "Usage: pebblesay [option]... [\033[4mmessage\033[0m]",
+    description=
+        "This program comes with \033[38;5;196mABSOLUTELY NO WARRANTY\033[39m, to the extent permitted by applicable law.",
+)
+parser.add_argument("-t", "--think", action="store_true")
+parser.add_argument("-m", "--mods", nargs="*", type=str)
+parser.add_argument("-w", "--width", default=maxWidth, type=int, help="set the width for word wrapping")
+parser.add_argument("-n", "--nowrap", action="store_true")
+parser.add_argument("-p", "--pipe", action="store_true", help="force reading from pipe")
+parser.add_argument("text", nargs="*", type=str)
+args = parser.parse_args()
 
-    #setting width
-    if nextIterWidth:
-        if i == "0":
-            print("Error: Width can't be set to 0.")
-            continue
-        try:
-            width = int(i)
-        except:
-            print("Error: Width value incorrect.")
-            continue
-        wrapping = True
-
-        nextIterWidth = False
-        textOffset += 1
-        continue
-
-    if nextIterMod:
-        modsEnabled.extend(i.split("+"))
-        nextIterMod = False
-        textOffset += 1
-        continue
-
-    #stopping at the end of options
-    if not i.startswith("-") and not nextIterWidth:
-        isTextInParameters = True
-        break
-
-    if "p" in i:
-        forcePipe = True
-    if "t" in i:
-        think = True
-    if "n" in i:
-        wrapping = True
-    if "f" in i:
-        force = True
-    if "c" in i:
-        modsEnabled.append("imgNoColor")
-
-    if "w" in i:
-        nextIterWidth = True
-    if "m" in i:
-        nextIterMod = True
-
-    textOffset += 1
-
-#setting width to max if not specified
-try: width
-except:
-    width = maxWidth
+text = " ".join(args.text).split("\\n")
 
 #turning on text wrapping if text supplied as argument
-if isTextInParameters and not "\\n" in " ".join(argv[textOffset:]):
+if text=="" and not args.nowrap:
     wrapping = True
 
 #configuring asciiart
 asciiart = baseAsciiart
-try: 
-    modsEnabled
-except:
-    pass
-else:
-    for modName in modsEnabled:
+if args.mods != None:
+    for modName in args.mods:
         mod = mods.get(modName)
         lineIndex = 0
         if mod != None:
@@ -164,39 +121,13 @@ else:
 ###############
 #fetching text#
 ###############
-
-#fetching text from arguments
-if isTextInParameters:
-    text = " ".join(argv[textOffset:]).split("\\n")
-
-#if no text supplied in arguments
-def usageMsg():
-    print("Usage: pebblesay [option]... [-m \033[4mmods\033[0m] " + \
-        "[\033[4mmessage\033[0m]")
-    print("This program comes with " + chr(0x1B) + "[38;5;196mABSOLUTELY NO " \
-        + "WARRANTY" + chr(0x1B) + "[39m, to the extent permitted by "\
-        + "\napplicable law.")
-    print("Options:")
-    print("  -t -> think")
-    print("  -m -> specify what modifications to apply to the base asciiart " \
-        + "(seperated by \n" \
-          "        a plus sign starting with the most invasive ones first)")
-    print("  -n -> toggle word wrapping")
-    print("  -w [number] -> set the width for word wrapping")
-    #print("  -f force")
-    print("  -c -> disable color (todo)")
-    print("  -p -> force reading from pipe")
-    print("Usage examples:")
-    print("  -> pebblesay XD")
-    print("  -> figlet XD | pebblesay")
-    print("  -> pebblesay -m uwu uwu")
-    print("  -> cat file.txt | pebblesay -n")
-    print('  -> pebblesay "Hi, \\nhow are you?"')
+def helpAndExit():
+    parser.print_help()
     _exit(0)
 
-if not isTextInParameters and not forcePipe:
+if text == [""] and not args.pipe:
     #prinring usage message after a set time (I am so fucking smart :3)
-    usageMsgTimer = Timer(0.1, usageMsg)
+    usageMsgTimer = Timer(0.1, helpAndExit)
     usageMsgTimer.start()
     #awaiting for text on stdin (peek() is blocking) and cancelling timer asap
     stdin.buffer.peek(1)
@@ -204,25 +135,19 @@ if not isTextInParameters and not forcePipe:
     text = stdin.read().splitlines()
 
 #-p specified
-if forcePipe:
+elif args.pipe:
     text = stdin.read().splitlines()
 
 #########################
 #parsing text (wrapping)#
 #########################
 
-#checking if text supplied
-if not force:
-    if (len(text) == 1 and (text[0] == "" or text[0] == " ")) or len(text) == 0:
-        print("Error: No text Supplied.")
-        _exit(1)
-
 #wrapping text
-if wrapping:
-    textTmp = text
-    text = []
-    for i in textTmp:
-        text.extend(wrap(i, width))
+if not args.nowrap: 
+    textWrapped = []
+    for i in text:
+        textWrapped.extend(wrap(i, args.width))
+text=textWrapped
 
 #calculating width
 width = max(len(i) for i in text)
@@ -269,11 +194,11 @@ output += " ¯"
 for i in range(0, width):
     output += '¯'
 output += "¯ "
-if not think:
+if not args.think:
     output += f"\\ {asciiart[2]}\n"
     output += spacing + f"     \\{asciiart[3]}\n"
 else:
-    output += "o {}\n".format(asciiart[2])
+    output += f"o {asciiart[2]}\n"
     output += spacing + f"     o{asciiart[3]}\n"
 
 #appending the rest of asciiart
