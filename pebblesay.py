@@ -116,7 +116,7 @@ if args.mods != None:
                     asciiart[lineIndex] = line
                 lineIndex +=1
         else:
-            print("Error: Invalid mod name " + modName + ".")
+            print(f"Error: Invalid mod name {modName}.")
 
 ###############
 #fetching text#
