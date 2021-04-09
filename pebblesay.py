@@ -86,7 +86,7 @@ parser = argparse.ArgumentParser(
     prog="nishisay",
     usage=
         "Usage: pebblesay [option]... [\033[4mmessage\033[0m]",
-    description=
+    epilog=
         "This program comes with \033[38;5;196mABSOLUTELY NO WARRANTY\033[39m, to the extent permitted by applicable law.",
 )
 parser.add_argument("-t", "--think", action="store_true")
