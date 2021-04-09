@@ -144,53 +144,44 @@ if not args.nowrap:
 text=textWrapped
 
 #calculating width
-width = max(len(i) for i in text)
+textWidth = max(len(i) for i in text)
+textHeight = len(text)
 
 ##########
 #printing#
-##########(finally)
-output = ""
+##########
+output = []
 
 #generating top line
-output += " " + '_' * (width + 2) + " "
+output.append(f" {'_' * (textWidth + 2)}   ")
 
 #one line of text
-if len(text) == 1:
-    output += f"  {asciiart[0]}\n"
-    output += f"< {text[0]} >  {asciiart[1]}\n"
+if textHeight == 1:
+    output.append(f"< {text[0]} >  ")
 
 #multiple lines of text
-elif len(text) > 1:
-    output += "\n"
+else:
     for i, line in enumerate(text):
         if i == 0:
-            output += f"/ {line.ljust(width)} \\  "
-        elif len(text) - i == 1:
-            output += f"\\ {line.ljust(width)} /  "
+            output.append(f"/ {line.ljust(textWidth)} \\  ")
+        elif textHeight - i == 1:
+            output.append(f"\\ {line.ljust(textWidth)} /  ")
         else:
-            output += f"│ {line.ljust(width)} │  "
+            output.append(f"│ {line.ljust(textWidth)} │  ")
 
-        #printing asciiart
-        if len(text) - i == 2:
-            output += asciiart[0]
-        elif len(text) - i == 1:
-            output += asciiart[1]
+spacing = " " * textWidth
 
-        output += "\n"
+#creating bottom line and the tail
+tailChar = "\\" if not args.think else "o"
+output.append(f" {'¯' * (textWidth + 2)} {tailChar} ")
+output.append(f"{spacing}     {tailChar}")
 
-spacing = " " * width
-
-#creating bottom line
-output += " " + '¯' * (width + 2) + " "
-if not args.think:
-    output += f"\\ {asciiart[2]}\n"
-    output += f"{spacing}     \\{asciiart[3]}\n"
-else:
-    output += f"o {asciiart[2]}\n"
-    output += f"{spacing}     o{asciiart[3]}\n"
+output = [f"{bubbleLine}{asciiartLine}" for bubbleLine, asciiartLine in 
+    zip(output, ["" for _ in range(textHeight + 3 - 4)] + asciiart[:4])
+]
 
 #appending the rest of asciiart
 for line in asciiart[4:]:
-    output += f"{spacing}{line}\n"
+    output.append(f"{spacing}{line}")
 
-stdout.write(output)
+stdout.write("\n".join(output))
