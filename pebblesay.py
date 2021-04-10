@@ -86,17 +86,20 @@ parser = argparse.ArgumentParser(
     prog="nishisay",
     usage=
         "Usage: pebblesay [option]... [\033[4mmessage\033[0m]",
+    description=None,
     epilog=
-        "This program comes with \033[38;5;196mABSOLUTELY NO WARRANTY\033[39m, to the extent permitted by applicable law.",
+        "This program comes with \033[38;5;196mABSOLUTELY NO WARRANTY\033[39m, "
+        "to the extent permitted byapplicable law.",
+    formatter_class=argparse.RawDescriptionHelpFormatter,
 )
-parser.add_argument("-t", "--think", action="store_true")
+parser.add_argument("-t", "--think", action="store_true", help="print a thought bubble instead of a speech bubble")
 parser.add_argument("-m", "--mods", nargs="*", type=str)
-parser.add_argument("-w", "--width", default=maxWidth, type=int, help="set the width for word wrapping")
-parser.add_argument("-n", "--nowrap", action="store_true")
-parser.add_argument("-p", "--pipe", action="store_true", help="force reading from pipe")
-parser.add_argument("text", nargs="*", type=str)
-args = parser.parse_args()
+parser.add_argument("-w", "--width", default=maxWidth, type=int, help=f"set the width for word wrapping (default: {maxWidth})")
+parser.add_argument("-n", "--nowrap", action="store_true", help="disable line wrapping")
+parser.add_argument("-p", "--pipe", action="store_true", help="force reading from STDIN")
+parser.add_argument("text", nargs="*", type=str, help="text to be displayed in the speech bubble")
 
+args = parser.parse_args()
 text = " ".join(args.text).split("\\n")
 
 #configuring asciiart
