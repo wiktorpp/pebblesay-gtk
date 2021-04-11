@@ -90,12 +90,22 @@ parser = argparse.ArgumentParser(
         "This program comes with \033[38;5;196mABSOLUTELY NO WARRANTY\033[39m, "
         "to the extent permitted byapplicable law.",
 )
-parser.add_argument("-t", "--think", action="store_true", help="print a thought bubble instead of a speech bubble")
-parser.add_argument("-m", "--mods", nargs="*", type=str)
-parser.add_argument("-w", "--width", default=maxWidth, type=int, help=f"set the width for word wrapping (default: {maxWidth})")
-parser.add_argument("-n", "--nowrap", action="store_true", help="disable line wrapping")
-parser.add_argument("-p", "--pipe", action="store_true", help="force reading from STDIN")
-parser.add_argument("message", nargs="*", type=str, help="message to be displayed in the speech bubble")
+parser.add_argument("-t", "--think", action="store_true", 
+    help="print a thought bubble instead of a speech bubble"
+)
+parser.add_argument("-m", "--mods", nargs="*", type=str, metavar="MOD")
+parser.add_argument("-w", "--width", default=maxWidth, type=int, 
+    help=f"set the width for word wrapping (default: {maxWidth})"
+)
+parser.add_argument("-n", "--nowrap", action="store_true", 
+    help="disable line wrapping"
+)
+parser.add_argument("-p", "--pipe", action="store_true", 
+    help="force reading from STDIN"
+)
+parser.add_argument("message", nargs="*", type=str, 
+    help="message to be displayed in the speech bubble"
+)
 
 args = parser.parse_args()
 text = " ".join(args.message).split("\\n")
@@ -178,7 +188,10 @@ output.append(f" {'¯' * (textWidth + 2)} {tailChar} ")
 output.append(f"{spacing}     {tailChar}")
 
 output = [f"{bubbleLine}{asciiartLine}" for bubbleLine, asciiartLine in 
-    zip(output, ["" for _ in range(textHeight + 3 - 4)] + asciiart[:4])
+    zip(
+        output, 
+        ["" for _ in range(textHeight + 3 - 4)] + asciiart[:4]
+    )
 ]
 
 #appending the rest of asciiart
