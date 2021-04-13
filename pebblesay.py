@@ -80,7 +80,7 @@ maxWidth = 35
 #setting options#
 #################
 
-# Create the parser (should have used that from the begining)
+# Create the parser (should've used that from the begining)
 parser = argparse.ArgumentParser(
     prog="nishisay",
     usage=
@@ -93,7 +93,9 @@ parser = argparse.ArgumentParser(
 parser.add_argument("-t", "--think", action="store_true", 
     help="print a thought bubble instead of a speech bubble"
 )
-parser.add_argument("-m", "--mods", nargs="*", type=str, metavar="MOD")
+parser.add_argument("-m", "--mods", nargs="*", type=str, metavar="MOD",
+    help="deprecated"
+)
 parser.add_argument("-w", "--width", default=maxWidth, type=int, 
     help=f"set the width for word wrapping (default: {maxWidth})"
 )
