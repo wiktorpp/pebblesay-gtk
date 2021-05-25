@@ -1,5 +1,10 @@
 !!!DEPRECATED!!!
 
+Try out the browser version:
+┌───────────────────────────────────────────┐
+│ https://wiktorpp.github.io/pebblesay-web/ │
+└───────────────────────────────────────────┘
+
 To install this program open terminal and type:
 
     git clone https://github.com/wiktorpp/pebblesay.git
