@@ -6,7 +6,7 @@ if [ $# -eq 0 ]; then
 else
     if [ -w /usr/bin ] || [ "$1" = "link" ]; then
         if [ "$1" = "install" ]; then
-            if cp ${SCRIPTPATH}/pebblesay.py /usr/bin/pebblesay; then
+            if cp ${SCRIPTPATH}/pebblesay.py /usr/bin/pebblesay && chmod +x /usr/bin/pebblesay; then
                 echo "Installed successfully."
             fi
         elif [ "$1" = "purge" ]; then
@@ -14,6 +14,7 @@ else
                 echo "Uninstalled successfully."
             fi
         elif [ "$1" = "link" ]; then
+            chmod +x pebblesay.py
             ln pebblesay.py pebblesay
             printf "\n# adding the folder containing pebblesay to the \$PATH variable.\n" >> ~/.bashrc
             printf "export PATH=\$PATH\":$SCRIPTPATH\"" >> ~/.bashrc
