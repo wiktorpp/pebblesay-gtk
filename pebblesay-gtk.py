@@ -11,7 +11,6 @@ class Handler:
     def generate(self, *args):
         buffer = builder.get_object("textEntry").get_buffer()
         input = buffer.get_text(buffer.get_bounds().start, buffer.get_bounds().end, False)
-        print(input)
         output = pebblesay.generate(input.split("\n"))
         textOutput = builder.get_object("textOutput")
         textOutput.set_text("\n".join(output))
