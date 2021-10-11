@@ -1,11 +1,31 @@
 import gi
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 
 import pebblesay
 
 class Handler:
-    def onDestroy(self, *args):
+    def __init__(self):
+        pass
+
+    def generate(self, *args):
+        buffer = builder.get_object("textEntry").get_buffer()
+        input = buffer.get_text(buffer.get_bounds().start, buffer.get_bounds().end, False)
+        print(input)
+        output = pebblesay.generate(input.split("\n"))
+        textOutput = builder.get_object("textOutput")
+        textOutput.set_text("\n".join(output))
+        
+    def copy(self, *args):
+        text = builder.get_object("textOutput").get_text()
+        clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+        clipboard.set_text(text, -1)
+
+    def showAbout(self, button):
+        about = builder.get_object("about")
+        about.show_all()
+
+    def onDestroy(self, window):
         Gtk.main_quit()
 
     def __getattr__(self, name):
