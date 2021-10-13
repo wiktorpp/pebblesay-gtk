@@ -34,7 +34,10 @@ class Handler:
         return lambda self, *args: print(f'Handler "{name}" was called by a {self.get_name()}')
 
 builder = Gtk.Builder()
-builder.add_from_file("pebblesay-gtk.glade")
+try:
+    builder.add_from_file("pebblesay-gtk.glade")
+except:
+    builder.add_from_file("/app/share/io.github.pebblesay/pebblesay-gtk.glade")
 builder.connect_signals(Handler())
 
 window = builder.get_object("window")
