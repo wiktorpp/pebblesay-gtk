@@ -37,7 +37,7 @@ builder = Gtk.Builder()
 try:
     builder.add_from_file("pebblesay-gtk.glade")
 except:
-    builder.add_from_file("/app/share/io.github.pebblesay/pebblesay-gtk.glade")
+    builder.add_from_file("/app/usr/share/io.github.pebblesay/pebblesay-gtk.glade")
 builder.connect_signals(Handler())
 
 window = builder.get_object("window")
