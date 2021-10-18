@@ -33,11 +33,9 @@
     </child>
   </object>
   <object class="GtkWindow" id="window">
-    <property name="width-request">400</property>
+    <property name="width-request">350</property>
     <property name="can-focus">False</property>
-    <property name="halign">start</property>
-    <property name="valign">start</property>
-    <property name="default-width">400</property>
+    <property name="default-width">350</property>
     <property name="icon-name">application-x-executable-symbolic</property>
     <signal name="destroy" handler="onDestroy" swapped="no"/>
     <child>
