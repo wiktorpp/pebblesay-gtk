@@ -64,6 +64,7 @@
           <object class="GtkLabel" id="textOutput">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="vexpand">True</property>
             <property name="label" translatable="yes">
 
 
